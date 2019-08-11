@@ -19,7 +19,7 @@ cp "${TODO}" "${todo_backup}"
 
 tmp_report="${dir_backup}/report_${today}.txt"
 
-python daily_report.py "${todo_backup}" "${tmp_report}" "${TODO}"
+./daily_report.py "${todo_backup}" "${tmp_report}" "${TODO}"
 
 echo "" >> "${REPORT}"
 echo "# $(date +"%Y-%m-%d (%a)")" >> "${REPORT}"

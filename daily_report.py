@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 INDENT = 4
@@ -46,10 +46,10 @@ class TaskProcessor:
 
     def print_node(self, node):
         if node.flag:
-            print >> self.out_report, node.line
+            print(node.line, file=self.out_report)
 
         if node.todo:
-            print >> self.out_todo, node.line
+            print(node.line, file=self.out_todo)
 
         for c in node.children:
             self.print_node(c)
@@ -100,7 +100,7 @@ class TaskProcessor:
                 cursor = node
                 prev_level = pos_level
             except:
-                print l
+                print(l)
                 exit(1)
 
         self.finalize(root)
