@@ -70,6 +70,10 @@ class TaskProcessor:
         for l in content:
             try:
                 l_strip = l.lstrip()
+                if not l_strip:
+                    # blank line
+                    continue
+
                 leading_spaces = len(l) - len(l_strip)
                 pos_level = leading_spaces / INDENT
                 mark = l_strip[0]
