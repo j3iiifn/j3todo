@@ -42,6 +42,8 @@ class TaskProcessor:
             return
 
         node.flag = True
+        if self.debug:
+            print("add_flag_to_parent => %s" % node)
 
         if node.parent:
             self.add_flag_to_parent(node.parent)
@@ -52,6 +54,8 @@ class TaskProcessor:
 
         node.flag = True
         node.todo = False
+        if self.debug:
+            print("add_flag_to_children => %s" % node)
 
         for c in node.children:
             self.add_flag_to_children(c)
@@ -122,6 +126,10 @@ class TaskProcessor:
                 pos_level = math.floor(leading_spaces / INDENT)
                 mark = l_strip[0]
                 parent = None
+
+                if self.debug:
+                    task = l_strip[1:].lstrip()
+                    print("%d, %s, %s, %s" % (pos_level, mark, task, l))
     
                 if pos_level == 0:
                     parent = self.root
@@ -167,8 +175,20 @@ def aparse():
         'output_todo', type=argparse.FileType('w'),
         help='todo.txt'
     )
+    parser.add_argument(
+        '--debug', action='store_true',
+        help='Debug option.'
+    )
     return parser.parse_args()
 
+def print_node(node):
+    if node.children:
+        print('-----')
+
+    print("%s => %s" % (node.parent, node))
+
+    for c in node.children:
+        print_node(c)
 
 def main():
     args = aparse()
@@ -176,6 +196,9 @@ def main():
     t.read_from(args.input_todo)
     t.run()
     t.finalize()
+
+    if args.debug:
+        print_node(t.root)
 
 
 if __name__ == "__main__":
